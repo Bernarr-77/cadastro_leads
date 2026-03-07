@@ -23,12 +23,12 @@ def post_leads(payload: LeadInput):
 
 @app.get("/leads/search")
 def get_clients_mail(lead_mail: Optional[EmailStr] = None, lead_phone: Optional[PhoneNumber] = None, 
-                     lead_name: Optional[str] = None, lead_id:Optional[int] = None):
+                     lead_name: Optional[str] = None, lead_id:Optional[int] = None, limit: int = 50, skip: int = 0):
 
-    if lead_mail is None and lead_phone is None and lead_name is None and lead_id is None:
+    if lead_mail is None and lead_phone is None and lead_name is None and lead_id is None and limit is None and skip is None:
         raise HTTPException(status_code=400, detail= "Você precisa mandar pelo menos um dado para fazer a busca ")
     try:
-        get_leads = get_lead_email(lead_mail, lead_phone, lead_name,lead_id)
+        get_leads = get_lead_email(lead_mail, lead_phone, lead_name,lead_id, limit, skip)
 
     except Exception as error_500:
         raise HTTPException(status_code=500, detail= f"Erro desconhecido: {str(error_500)}")

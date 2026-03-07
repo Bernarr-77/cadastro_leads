@@ -17,7 +17,7 @@ def seedbomb(quantidade = 30000):
         data_criacao = str(datetime.now())
 
         lote_de_dados.append((nome, email, telefone, status, data_criacao))
-    print(f"2. {quantidade} leads gerados. Abrindo o cofre do banco de dados...")
+    print(f"{quantidade} leads gerados. Abrindo o cofre do banco de dados...")
 
     with sqlite3.connect("leads.db") as con:
         cur = con.cursor()
@@ -31,7 +31,7 @@ def seedbomb(quantidade = 30000):
         cur.executemany(sql, lote_de_dados)
         linhas_injetadas = cur.rowcount
         
-    print(f"3. Bombardeio concluído! {linhas_injetadas} leads foram injetados com sucesso.")
+    print(f"{linhas_injetadas} leads foram injetados com sucesso.")
 
 if __name__  == "__main__":
     seedbomb()

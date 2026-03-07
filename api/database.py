@@ -17,6 +17,9 @@ def start_bank():
     '''
     cur.execute(sql_command)
 
+    # sql_index = "CREATE INDEX IF NOT EXISTS idx_leads_name ON leads(name);"
+    # cur.execute(sql_index)
+
     con.commit()
      
     con.close()
@@ -43,14 +46,15 @@ def get_lead_id(lead_id):
             return dict(row)
         return None
     
-def get_lead_email(lead_mail, lead_phone, lead_name, lead_id):
+def get_lead_email(lead_mail, lead_phone, lead_name, lead_id, limit, skip):
     with sqlite3.connect("leads.db") as con:
         con.row_factory = sqlite3.Row
         cur = con.cursor()
+        nome_formatado = f"%{lead_name}%" if lead_name else None
         sql = """
-        SELECT * FROM leads WHERE email = ? OR phone = ? OR id = ? OR name LIKE ?
+        SELECT * FROM leads WHERE email = ? OR phone = ? OR id = ? OR name LIKE ? LIMIT ? OFFSET ?
         """
-        cur.execute(sql, (lead_mail, lead_phone,lead_id,f"%{lead_name}%",))
+        cur.execute(sql, (lead_mail, lead_phone,lead_id,nome_formatado, limit, skip))
         row  = cur.fetchall()
         if row:
             return [dict(r) for r in row]
