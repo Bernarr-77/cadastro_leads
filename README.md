@@ -22,3 +22,29 @@ Este projeto foi desenvolvido para suportar testes de estresse com alto volume d
 1. Clone este repositório:
 ```bash
 git clone https://github.com/Bernarr-77/cadastro_leads.git
+cd cadastro_leads
+# Crie um ambiente virtual:
+
+python -m venv venv
+
+# No Windows:
+venv\Scripts\activate
+
+# No Linux/Mac:
+source venv/bin/activate
+
+#Instale as dependências do ecossistema:
+pip install fastapi[standart] pydantic[email] pydantic-extra-types phonenumbers faker
+
+#Inicialize a infraestrutura do banco de dados (Criação da tabela e do arquivo leads.db):
+python api/database.py
+
+#Execute o script de seeding massivo para injetar 30.000 leads fictícios no banco e testar a performance de paginação e indexação:
+python seed.py
+
+#Navegue para a pasta da API e inicie o servidor ASGI:
+cd api
+fastapi dev main.py
+
+#Acesse a documentação interativa (Swagger UI) para testar as rotas:
+http://localhost:8000/docs
